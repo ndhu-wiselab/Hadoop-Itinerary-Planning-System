@@ -80,19 +80,19 @@ public class mapper extends MapReduceBase implements Mapper<Object, Text, Text, 
 		String[] path_str = sub_str[0].split(":");
 		int[] sort = new int[path_str.length+1];
 		
-		//for i = 0 to POIGRAPH.POINumber do, POIsize = 50
+		//for i = 1 to POIGRAPH.POINumber do, POIsize = 50
 		int POIsize = 50;
-		for( int i = 0; i < POIsize; i++ ){
+		for( int i = 1; i <= POIsize; i++ ){
 			boolean isconnected = true;
 			boolean iscontains = false;
 			int path_int = Integer.parseInt(path_str[path_str.length-1]);
-			if( map_cost[path_int][i] == 0 || map_cost[i][path_int] == 0)
+			if( map_cost[path_int-1][i-1] == 0 || map_cost[i-1][path_int-1] == 0)
 				isconnected = false;
 			else{
 				for( int c = 0; c < path_str.length; c++ ){
 					int is = Integer.parseInt(path_str[c]);
 					sort[c] = is;
-					if( is != i  )
+					if( is != i-1  )
 						iscontains = false;
 					else{
 						iscontains = true;
@@ -109,10 +109,10 @@ public class mapper extends MapReduceBase implements Mapper<Object, Text, Text, 
 				//cost = P.cost + POIGRAPH.getCost(P.endPOI, i)+POIGraph.getCost(i)
 				//newPath.cost = cost;
 				int path_end = Integer.parseInt(path_str[path_str.length-1]);
-				cost = sub_int1+map_cost[path_end][i];
+				cost = sub_int1+map_cost[path_end-1][i-1];
 				//weight = P.weight +POIGraph.getWeight(i)
 				//newPath.weight = weight;
-				weight = sub_int2+map_w[i];
+				weight = sub_int2+map_w[i-1];
 				
 				//if newPath.cost <= H then,  H = 60
 				if( cost <= 60 ){

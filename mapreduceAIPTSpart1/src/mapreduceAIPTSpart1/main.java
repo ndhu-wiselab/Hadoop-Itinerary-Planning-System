@@ -1,5 +1,6 @@
 package mapreduceAIPTSpart1;
 
+import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapred.FileInputFormat;
@@ -32,7 +33,14 @@ public class main {
 			conf.setMapperClass(mapper.class);
 					// TODO: specify a reducer
 			conf.setReducerClass(reducer.class);
-				client.setConf(conf);
+			client.setConf(conf);
+			try{
+				if(FileSystem.get(conf).exists(new Path("10round-"+counter)))
+					FileSystem.get(conf).delete(new Path("10round-"+counter));
+				JobClient.runJob(conf);
+			}catch(Exception e){
+				e.printStackTrace();
+			}
 			try {
 				JobClient.runJob(conf);
 			} catch (Exception e) {

@@ -65,8 +65,8 @@ public class reducer extends MapReduceBase implements Reducer<Text, Text, Text, 
 				output.collect(outkey, outvalue);
 				//System.out.println(outkey+"\t"+outvalue);
 			}
-			else
-				throw new Exception("null");
+			//else
+				//throw new Exception("null");
 		}catch( Exception e ){
 			e.printStackTrace();
 		}
